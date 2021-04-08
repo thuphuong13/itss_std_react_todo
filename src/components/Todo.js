@@ -59,7 +59,7 @@ function Todo() {
         ITSS ToDoアプリ
       </div>
        <Input handleAdd = {handleAdd}/>
-        <Filter handleFilter= {handleFilter}/>
+        <Filter filter = {filter} handleFilter= {handleFilter}/>
       {renderItems.map(item => (
         <TodoItem
           key = {items.key}

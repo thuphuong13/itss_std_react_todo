@@ -4,12 +4,18 @@
 　・タブで表示する
 　・サポートするステータスは「すべて」「未完了」「完了済み」
 */
-function Filter( {handleFilter} ) {
+function Filter( {handleFilter, filter} ) {
   return (
    <div className="panel-tabs">
-      <a onClick = {() => handleFilter('all')}>全て</a>
-      <a onClick = {() => handleFilter('doing')}>未完了</a>
-      <a onClick = {() => handleFilter('done')}>完了済み</a>
+      <a 
+      style = {{color: `${filter == 'all'? 'black' : ''}`}}
+      onClick = {() => handleFilter('all') }>全て</a>
+      <a 
+       style = {{color: `${filter == 'doing'? 'black' : ''}`}}
+      onClick = {() => handleFilter('doing')}>未完了</a>
+      <a 
+       style = {{color: `${filter == 'done'? 'black' : ''}`}}
+      onClick = {() => handleFilter('done')}>完了済み</a>
     </div>
   );
 }
