@@ -40,16 +40,27 @@ function Todo() {
    const handleAdd = text => {
     putItems([...items, { key: getKey(), text, done: false }]);
   };
+    
+   const [filter, setFilter] = useState('all');
    
-   const [inputText, setInputTex] = useState('');
+    const renderItems = items.filter((item) => {
+    if (filter === 'all') return item;
+    if (filter === 'doing') return !item.done;
+    if (filter === 'done') return item.done;
+  }); 
+  // loc items
+    const handleFilter = (text)=>{
+     setFilter(text);
+   };
+   
   return (
     <div className="panel">
       <div className="panel-heading">
         ITSS ToDoアプリ
       </div>
-       <Input handleAdd = {handleAdd}
-       />
-      {items.map(item => (
+       <Input handleAdd = {handleAdd}/>
+        <Filter handleFilter= {handleFilter}/>
+      {renderItems.map(item => (
         <TodoItem
           key = {items.key}
           item = {item}
@@ -57,7 +68,7 @@ function Todo() {
         />
       ))}
       <div className="panel-block">
-        {items.length} items
+        {renderItems.length} items
       </div>
     </div>
   );
