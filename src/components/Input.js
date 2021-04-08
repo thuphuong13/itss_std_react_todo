@@ -6,15 +6,25 @@ import React, { useState } from 'react';
 */
 function Input( {handleAdd} ) {
     const [inputText, setInputTex] = useState('');
-
+    
+    const handleChange = e => setInputTex(e.target.value);
+    
+    const handleKeyDown = e => {
+    if (e.key === 'Enter') {
+      handleAdd(inputText);
+      setInputTex('');
+    }
+  };
+  
   return (
     <div className="panel-block">
       <input 
         class="input" 
         type="text"
         placeholder = "Todoを入力してください"
-        onKeyDown ={(e)=> e.key === "Enter" && handleAdd(inputText)} 
-        onChange = {(e)=>setInputTex(e.target.value)}
+       value={inputText}
+        onChange = {handleChange}
+        onKeyDown ={handleKeyDown } 
       />
     </div>
   );
