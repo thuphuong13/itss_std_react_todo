@@ -68,7 +68,19 @@ const CustomFirebaseStore = () => {
             console.log(err);
         }
     }
-    return [value, addItems, updateItems, deleteTodos, auth, updateUser, storeUserInfo, uiConfig];
+
+    const uploadImage = async (image) => {
+        const ref = firebase.storage().ref().child(`/images/${image.name}`);
+        let downloadUrl = "";
+        try {
+            await ref.put(image);
+            downloadUrl = await ref.getDownloadURL();
+        } catch (err) {
+            console.log(err);
+        }
+        return downloadUrl;
+    };
+    return [value, addItems, updateItems, deleteTodos, auth, updateUser, storeUserInfo, uiConfig, uploadImage];
 };
 
 export default CustomFirebaseStore;

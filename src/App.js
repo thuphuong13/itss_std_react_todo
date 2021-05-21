@@ -6,7 +6,7 @@ import './styles/main.css';
 /* コンポーネント */
 import Todo from './components/Todo';
 import Login from "./components/LogIn";
-// import Upload from "./components/Upload";
+import Upload from "./components/Upload";
 // Your web app's Firebase configuration
 import firebase from 'firebase';
 
@@ -50,7 +50,7 @@ firebase.initializeApp(firebaseConfig);
 
 function App() {
   // const [user, loading, error] = useAuthState(firebase.auth());
-  const [value, addItems, updateItems, deleteTodos, auth, updateUser, storeUserInfo, uiConfig] = CustomFirebaseStore();
+  const [value, addItems, updateItems, deleteTodos, auth, updateUser, storeUserInfo, uiConfig, uploadImage] = CustomFirebaseStore();
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState([]);
 
@@ -78,7 +78,7 @@ function App() {
       return (
         <div class="navbar-end">
           <div class="navbar-item">
-            {/* <Upload userImage={user.image} onSletctedImage={handleImageChanged} /> */}
+            <Upload userImage={user.image} onSletctedImage={handleImageChanged} />
             {user.name}
           </div>
           <div class="navbar-item">

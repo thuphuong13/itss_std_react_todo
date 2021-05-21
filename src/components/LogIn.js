@@ -5,7 +5,7 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import CustomFirebaseStore from '../hooks/CustomFirebaseStore';
 
 function LogIn() {
-    const [value, addItems, updateItems, deleteTodos, auth, updateUser, storeUserInfo, uiConfig] = CustomFirebaseStore();
+    const [value, addItems, updateItems, deleteTodos, auth, updateUser, storeUserInfo, uiConfig, uploadImage] = CustomFirebaseStore();
     return (
         <div className="column panel-block">
             <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />
