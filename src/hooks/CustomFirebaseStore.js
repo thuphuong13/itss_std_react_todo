@@ -21,8 +21,17 @@ const CustomFirebaseStore = () => {
             .doc(`${newItem.id}`)
             .update({ done: !newItem.done });
     };
+    const deleteTodos = async () => {
 
-    return [value, addItems, updateItems];
+        value.map((item) =>
+            firebase
+                .firestore()
+                .collection('todos')
+                .doc(`${item.id}`)
+                .delete()
+        )
+    };
+    return [value, addItems, updateItems, deleteTodos];
 };
 
 export default CustomFirebaseStore;

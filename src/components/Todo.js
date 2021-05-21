@@ -17,7 +17,7 @@ import TodoItem from './TodoItem';
 
 function Todo() {
   const [items, putItems, clearItems] = useStorage();
-  const [value, addItems, updateItems] = CustomFirebaseStore();
+  const [value, addItems, updateItems, deleteTodos] = CustomFirebaseStore();
   console.log(`value:`, value);
 
   const handleCheck = async (checked) => {
@@ -50,9 +50,9 @@ function Todo() {
       ))}
       <div className="panel-block">{renderItems?.length} items</div>
       <div className="panel-block">
-        <button className="button is-light is-fullwidth" onClick={clearItems}>
+        <button className="button is-light is-fullwidth" onClick={() => deleteTodos()}>
           全てのToDoを削除
-</button>
+        </button>
       </div>
     </div>
   );
