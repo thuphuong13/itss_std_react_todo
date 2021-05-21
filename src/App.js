@@ -48,10 +48,14 @@ firebase.initializeApp(firebaseConfig);
 function App() {
   const [user, loading, error] = useAuthState(firebase.auth());
   const login = async () => {
-
-    var provider = new firebase.auth.GoogleAuthProvider();
-    await firebase.auth().signInWithPopup(provider);
+    try {
+      var provider = new firebase.auth.GoogleAuthProvider();
+      await firebase.auth().signInWithPopup(provider);
+    } catch (error) {
+      alert(error);
+    }
   };
+
   console.log(user);
   if (loading) {
     return (
