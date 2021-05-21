@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react'
 
 /* スタイルシート */
 import './styles/main.css';
 
 /* コンポーネント */
 import Todo from './components/Todo';
+import Login from "./components/LogIn";
+// import Upload from "./components/Upload";
 // Your web app's Firebase configuration
 import firebase from 'firebase';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
+import CustomFirebaseStore from './hooks/CustomFirebaseStore';
 
 // // Initialize Firebase
 const firebaseConfig = {
@@ -46,58 +49,63 @@ firebase.initializeApp(firebaseConfig);
 // };
 
 function App() {
-  const [user, loading, error] = useAuthState(firebase.auth());
-  const login = async () => {
-    try {
-      var provider = new firebase.auth.GoogleAuthProvider();
-      await firebase.auth().signInWithPopup(provider);
-    } catch (error) {
-      alert(error);
-    }
+  // const [user, loading, error] = useAuthState(firebase.auth());
+  const [value, addItems, updateItems, deleteTodos, auth, updateUser, storeUserInfo, uiConfig] = CustomFirebaseStore();
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState([]);
+
+  useEffect(() => {
+    auth.onAuthStateChanged(async (user) => {
+      setLoading(false);
+      let newUser = null;
+      if (user) {
+        newUser = await storeUserInfo(user);
+      }
+      setUser(newUser);
+    });
+  }, []);
+
+  const logout = () => {
+    auth.signOut();
   };
 
-  console.log(user);
-  if (loading) {
-    return (
-      <div>
-        <p>Initialising User...</p>
-      </div>
-    );
+  const handleImageChanged = async downlodUrl => {
+    await updateUser(user, downlodUrl);
   }
-  if (error) {
-    return (
-      <div>
-        <p>Error: {error}</p>
-      </div>
-    );
-  }
-  if (!user) {
-    return (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
-        <button
-          onClick={() => login()}
-          style={{
-            marginTop: '5rem',
-            padding: '20px',
-            backgroundColor: '#fff',
-            fontWeight: 'bold',
-          }}
-        >
-          Sign in with google
-</button>
-      </div>
-    );
+
+  const HeaderContent = () => {
+    if (user) {
+      return (
+        <div class="navbar-end">
+          <div class="navbar-item">
+            {/* <Upload userImage={user.image} onSletctedImage={handleImageChanged} /> */}
+            {user.name}
+          </div>
+          <div class="navbar-item">
+            <button class="button is-danger is-light is-small" onClick={logout} > Logout</button>
+          </div>
+        </div >
+      )
+    } else {
+      return (<Login />)
+    }
   }
 
   return (
     <div className="container is-fluid">
-      <Todo />
-    </div>
+      <header class="navbar">
+        {loading ? (
+          <p>
+            LOADING.....
+          </p>
+        ) : (
+          <HeaderContent />
+        )}
+      </header >
+      <div>
+        {user && <Todo />}
+      </div>
+    </div >
   );
 }
 
